@@ -14,3 +14,4 @@ Milestones:
 - Register as an LTD
 - Come up with good name
 - Logo, themes, basic design
+- Get real server or virtual server (AWS or something)
