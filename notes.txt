@@ -1,0 +1,16 @@
+- make diagram to explain flow of program
+- look at google maps 'places' api (just figure out places between point A and point B)
+
+
+Milestones:
+- IOS and Android Apps
+- Market research, are people interested
+- Incubation, small amounts of funding
+- Get full funding
+- Hire other programmers/people as either employees or co-founders. Preferably co-founders
+- Talk to restaurant chains and other business about paying more to show up on app.
+- Figure out final design of app
+- Marketing outside of 'annoying ads'
+- Register as an LTD
+- Come up with good name
+- Logo, themes, basic design
