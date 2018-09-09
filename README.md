@@ -1,3 +1,3 @@
 # BetweenYouAndMe
 
-[a link](http://myrazpi.com:8080)
+[Link to the website](http://myrazpi.com:8080)
