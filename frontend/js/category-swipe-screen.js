@@ -60,6 +60,6 @@ function checkForNextCategory() {
         newImage.alt = 'category: ' + categories[categoryIndex].name;
         imageContainer.replaceChild(newImage, imageContainer.childNodes[0]);
     } else {
-        window.location.href = 'places-swipe-screen.html';
+        window.location.href = 'places-swipe-screen';
     }
 }

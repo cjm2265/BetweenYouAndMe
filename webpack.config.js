@@ -2,7 +2,7 @@ module.exports = options => {
     return {
         entry: "./frontend/react/App.js",
         output: {
-            path: __dirname + "/frontend/javascript/",
+            path: __dirname + "/frontend/js/",
             filename: 'react-bundle.js'
         },
         module: {
