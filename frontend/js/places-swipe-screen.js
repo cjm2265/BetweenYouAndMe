@@ -49,7 +49,7 @@ function init() {
     document.querySelector('#yes-button').addEventListener('click', swipeRight);
     document.querySelector('#no-button').addEventListener('click', checkforNextPlace);
     document.querySelector('#home-button').addEventListener('click', function() {
-        window.location.href = "index.html";
+        window.location.href = "/index";
     });
 
     imageContainer = document.querySelector('#container');
@@ -75,6 +75,6 @@ function checkforNextPlace() {
         newImage.alt = 'place: ' + places[placesIndex].name;
         imageContainer.replaceChild(newImage, imageContainer.childNodes[0]);
     } else {
-        window.location.href = 'matches-screen.html';
+        window.location.href = '/matches-screen';
     }
 }
