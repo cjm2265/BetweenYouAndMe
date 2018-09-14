@@ -1,3 +1,6 @@
 module.exports = {
-    mapsApiKey: 'Enter Maps API KEY here'
+    placesApi: {
+        apiKey: 'Enter Maps API KEY here',
+        outputFormat: 'json'
+    }
 }
