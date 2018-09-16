@@ -1,6 +1,6 @@
 module.exports = {
     placesApi: {
-        apiKey: 'AIzaSyDxDeULGYIa-azwPj4Nn6_DlOSrLMtDweU',
+        apiKey: 'EnterApiKeyHere',
         outputFormat: 'json'
     },
     mongoAddress: "mongodb://localhost/BetweenYouAndMe"
