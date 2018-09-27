@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
+const passport = require("passport");
+const jwt = require("jsonwebtoken")
 
 const config = require("./config/config")
 const distanceHelper = require("./helpers/distanceHelper")
@@ -22,9 +24,12 @@ app.use("/css", express.static(__dirname + "/frontend/css"));
 app.use("/bootstrap", express.static(__dirname + "/node_modules/bootstrap/dist/css/"))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(passport.initialize());
 
-app.get("/", function(req, res){
-	res.sendFile(htmlPath + "index.html");
+require("./database/passport")(passport);
+
+app.get("/", function (req, res) {
+    res.sendFile(htmlPath + "index.html");
 });
 
 app.get("/category-swipe-screen", (req, res) => {
@@ -40,7 +45,7 @@ app.get("/places-swipe-screen", (req, res) => {
 });
 
 app.post("/distance-between", (req, res) => {
-    res.json({distance: distanceBetween(req.body.pointA, req.body.pointB)});
+    res.json({ distance: distanceBetween(req.body.pointA, req.body.pointB) });
 })
 
 app.post("/places-between", (req, res) => {
@@ -48,12 +53,54 @@ app.post("/places-between", (req, res) => {
     let pointB = req.body.pointB;
     let parameters = distanceHelper.parameters(pointA, pointB)
 
-    places.placeSearch(parameters, (err, result) =>{
+    places.placeSearch(parameters, (err, result) => {
         res.json(result);
     });
 })
 
+app.post("/signup", (req, res, next) => {
+    passport.authenticate("local-signup", (err, user, info) => {
+        if (err)
+            return res.status(500).send(err);
+        if (user)
+            res.json({ message: "success" });
+        else
+            res.json(info);
+    })(req, res, next)
+})
+
+app.post("/getUser", (req, res, next) => {
+    passport.authenticate("local-login", (err, user, info) => {
+        if (err)
+            return res.status(500).send(err);
+        if (user)
+            res.json(user);
+        else
+            res.json(info);
+    })(req, res, next);
+});
+
+app.post("/getToken", (req, res, next) => {
+    passport.authenticate("local-login", (err, user, info) => {
+        if (err)
+            return res.status(500).send(err);
+        if (user){
+            generateToken(req, user, () => {
+                res.json({token: req.token})
+            })
+        }
+        else
+            res.json(info);
+    })(req, res, next);
+});
+
+var generateToken = (req, user, next) => {
+    req.token = jwt.sign({
+        id: user.id,
+    }, 'server secret');
+    next();
+}
 
 app.listen(portNumber, function () {
-  	console.log("Server started");
+    console.log("Server started");
 });
