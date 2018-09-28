@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const passport = require("passport");
 const jwt = require("jsonwebtoken")
+const expressJwt = require("express-jwt");
 
 const config = require("./config/config")
 const distanceHelper = require("./helpers/distanceHelper")
@@ -11,6 +12,7 @@ const GooglePlaces = require("googleplaces");
 
 const portNumber = 8080
 const htmlPath = __dirname + "/frontend/html/"
+const serverSecret = "betweenUnMe"
 
 const mongoose = require("mongoose");
 mongoose.connect(config.mongoAddress)
@@ -25,6 +27,8 @@ app.use("/bootstrap", express.static(__dirname + "/node_modules/bootstrap/dist/c
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
+
+const authenticate = expressJwt({secret: serverSecret})
 
 require("./database/passport")(passport);
 
@@ -94,10 +98,17 @@ app.post("/getToken", (req, res, next) => {
     })(req, res, next);
 });
 
+app.post("/isAuthenticated", authenticate, (req, res) => {
+    if(req.user)
+        res.send(true);
+    else
+        res.send(false);
+})
+
 var generateToken = (req, user, next) => {
     req.token = jwt.sign({
         id: user.id,
-    }, 'server secret');
+    }, serverSecret);
     next();
 }
 
