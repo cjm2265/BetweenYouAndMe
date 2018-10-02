@@ -7,6 +7,7 @@ const expressJwt = require("express-jwt");
 
 const config = require("./config/config")
 const distanceHelper = require("./helpers/distanceHelper")
+const searchQueryFormatter = require("./helpers/searchAddressHelper")
 
 const GooglePlaces = require("googleplaces");
 
@@ -104,6 +105,20 @@ app.post("/isAuthenticated", authenticate, (req, res) => {
     else
         res.send(false);
 })
+
+app.get("/searchAddress", (req, res) => {
+    try{
+        let query = searchQueryFormatter(req.query);
+        places.placeSearch(query, (err, response) => {
+            if(err)
+                res.status(500).json({message: err.message});
+            else
+                res.json(response)
+        });
+    } catch(err){
+        res.status(400).json({message: err.message})
+    }
+});
 
 var generateToken = (req, user, next) => {
     req.token = jwt.sign({
